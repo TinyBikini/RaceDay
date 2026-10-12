@@ -1,0 +1,12 @@
+/* Yellow accents are isolated here so they are easy to adjust or remove. */
+.site-header::after { content:""; position:absolute; right:0; bottom:-1px; width:clamp(100px,18vw,240px); height:4px; background:var(--yellow); transform:skewX(-28deg); transform-origin:right; }
+.main-nav a { position:relative; }
+.main-nav a::after { content:""; position:absolute; right:0; bottom:-7px; left:0; height:3px; background:var(--yellow); transform:scaleX(0); transform-origin:left; transition:transform 160ms ease; }
+.main-nav a:hover::after, .main-nav a:focus-visible::after { transform:scaleX(1); }
+.hero { position:relative; overflow:hidden; }
+.hero::after { content:""; position:absolute; right:-130px; bottom:-250px; width:340px; height:340px; border:42px solid var(--yellow); border-radius:50%; }
+.hero .container { position:relative; z-index:1; }
+.filter-panel summary::marker { color:var(--yellow); }
+.calendar-month { border-top:4px solid var(--yellow); }
+.selected-event { border-top:4px solid var(--yellow); }
+.community-card { border-bottom:4px solid var(--yellow); }
