@@ -1,45 +1,45 @@
-# Race Day: readable source version
+# Race Day: Today block update
 
-This version has the same functional architecture but is reorganized for learning and maintenance.
+This is an update package for the current modular Race Day repository.
 
-## JavaScript modules
+## Replace these existing files
 
-- `app.js`: starts the application and coordinates modules.
-- `state.js`: central application state and shared helpers.
-- `csv-loader.js`: downloads and parses CSV files.
-- `validation.js`: validates IDs, numbers, image names and URLs.
-- `calendar.js`: renders the calendar, selected event and upcoming list.
-- `event-card.js`: creates event cards and translates known descriptions.
-- `filters.js`: builds and applies filters.
-- `map.js`: creates the Leaflet map, markers and venue card.
-- `ics.js`: creates downloadable calendar files.
-- `translations.js`: EN, PT-PT and RU interface text.
-- `communities.js`: Telegram community data and cards.
+- `index.html`
+- `js/app.js`
+- `js/event-card.js`
+- `js/map.js`
+- `css/custom.css`
 
-## Styles
+## Add this new file
 
-- `styles.css`: approved base design.
-- `custom.css`: yellow accents. Edit or remove this file without touching the base design.
+- `js/today.js`
 
-## Logo and favicon
+Do not replace `data/Race_List.csv` or `data/Cartodrom_list.csv` with files from this package. Keep the current CSV files in the repository.
 
-- Temporary logo: `assets/images/race-day-logo.png`.
-- Favicon: `assets/icons/favicon.png`.
-- Replace either file while keeping its filename to update the visual without editing HTML.
+## Required CSV columns
 
-## Run locally
+Add to `Race_List.csv`:
 
-```powershell
-python -m http.server 8000
+```text
+championship_chat
 ```
 
-Open `http://localhost:8000`. Because a favicon is included, the previous `/favicon.ico` 404 no longer occurs.
+Add to `Cartodrom_list.csv`:
 
-## Images
+```text
+live_timing
+```
 
-- Race posters: `assets/images/race-posters/`; filename in `Race_List.csv` column `poster_image`.
-- Venue images: `assets/images/kartodroms/`; filename in `Cartodrom_list.csv` column `image`.
+Both columns are optional. Empty values produce no button.
 
-## GitHub Pages
+## Changes
 
-Upload the contents of this folder to a repository, then enable Pages from the default branch and root folder.
+- Today's events appear immediately after the hero block.
+- If today has no events, a localized message is shown.
+- Several events today use one expanded card and compact rows.
+- Calendar comes next; filters are below the calendar.
+- Hero Calendar button is removed.
+- Header height is reduced by about 40%.
+- Event cards can show Live Timing, championship chat and route buttons.
+- Venue cards can show Live Timing and route buttons.
+- Existing approved visual style and yellow accents are retained.

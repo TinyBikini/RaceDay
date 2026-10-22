@@ -1,39 +1,29 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Базовые метаданные страницы: кодировка, масштаб, описание и заголовок вкладки -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Race Day karting events in Portugal">
   <title>Race Day | Keep on rolling</title>
-
-  <!-- Подключаем иконку, Leaflet-стили и общие стили проекта -->
   <link rel="icon" href="assets/icons/favicon.png" type="image/png">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/custom.css">
 </head>
 <body>
-  <!-- Ссылка «Skip to content» для людей, использующих клавиатуру и скринридеры -->
   <a class="skip-link" href="#main-content">Skip to content</a>
-
-  <!-- Шапка сайта: логотип, навигация, переключатель языков -->
   <header class="site-header">
     <div class="container header-inner">
-      <!-- Логотип в левом углу — ведёт назад в начало страницы -->
       <a class="brand" href="#top" aria-label="Race Day home">
         <img src="assets/images/race-day-logo.png" alt="Karting Portugal temporary logo">
       </a>
-
-      <!-- Основная навигация по разделам: календарь, карта, сообщества, контакты -->
       <nav class="main-nav" aria-label="Primary navigation">
+        <a href="#today-events" data-i18n="todayEvents">Today</a>
         <a href="#calendar" data-i18n="calendar">Calendar</a>
         <a href="#venues" data-i18n="map">Map</a>
         <a href="#communities" data-i18n="communities">Communities</a>
         <a href="#contact" data-i18n="contact">Contact</a>
       </nav>
-
-      <!-- Переключатель языков для интерфейса: EN / PT / RU -->
       <div class="language-switcher" aria-label="Language selection">
         <button type="button" data-language="en" aria-pressed="true">EN</button>
         <button type="button" data-language="pt" aria-pressed="false">PT</button>
@@ -42,44 +32,29 @@
     </div>
   </header>
 
-  <!-- Основное содержимое страницы: здесь подключаются блоки с календарём, картой и сообществами -->
   <main id="main-content">
-    <!-- Hero: первый экран с заголовком и призывом к действию -->
     <section id="top" class="hero">
       <div class="container">
         <p class="eyebrow" data-i18n="eyebrow">Karting events in Portugal</p>
         <h1>Keep on rolling.</h1>
         <p data-i18n="intro">Find upcoming amateur karting races and venues.</p>
-        <a class="button button-primary" href="#calendar" data-i18n="calendar">Calendar</a>
       </div>
     </section>
-    <!-- Раздел календаря: здесь будет отображаться список гонок по датам и фильтрам -->
+
+    <section id="today-events" class="section today-section">
+      <div class="container">
+        <p class="eyebrow" data-i18n="todayLabel">Today</p>
+        <h2 id="today-title"></h2>
+        <div id="today-event-list" class="event-list today-event-list" aria-live="polite"></div>
+      </div>
+    </section>
+
     <section id="calendar" class="section section-alt">
       <div class="container">
-        <!-- <p class="eyebrow" data-i18n="finalVersion">Final version</p> -->
+        <p class="eyebrow" data-i18n="finalVersion">Final version</p>
         <h2 data-i18n="calendarTitle">Race calendar</h2>
-
-        <!-- Сообщение загрузки: показывается, пока данные ещё не загружены -->
         <div id="loading-message" class="loading-message" role="status" aria-live="polite" data-i18n="loading">Loading data...</div>
-
-        <!-- Контейнер календаря, который появляется после загрузки данных -->
         <div id="calendar-app" hidden>
-          <details id="filter-panel" class="filter-panel" open>
-            <summary data-i18n="filters">Filters</summary>
-            <div class="filter-grid">
-              <!-- Фильтры по региону, трассе, типу гонки и возрасту -->
-              <label><span data-i18n="region">Region</span><select id="filter-region"></select></label>
-              <label><span data-i18n="venue">Karting venue</span><select id="filter-venue"></select></label>
-              <label><span data-i18n="type">Race type</span><select id="filter-type"></select></label>
-              <label><span data-i18n="age">Age group</span><select id="filter-age"></select></label>
-              <button id="reset-filters" class="button button-dark" type="button" data-i18n="reset">Reset filters</button>
-            </div>
-          </details>
-
-          <!-- Подсказка о текущем состоянии фильтров -->
-          <p id="filter-message" class="filter-message" aria-live="polite"></p>
-
-          <!-- Рабочая область календаря: навигация по месяцам и детальный список событий -->
           <div class="calendar-workspace">
             <div class="calendar-tools">
               <button id="previous-month" type="button" data-i18n-aria="previousMonth">‹</button>
@@ -89,34 +64,82 @@
             <div id="calendar-months" class="calendar-months"></div>
             <aside class="selected-event" aria-live="polite">
               <div class="selected-event-heading">
-                <div><p class="eyebrow" data-i18n="selected">Selected date</p><h3 id="selected-date-title"></h3></div>
+                <div>
+                  <p class="eyebrow" data-i18n="selected">Selected date</p>
+                  <h3 id="selected-date-title"></h3>
+                </div>
                 <span id="selected-event-count"></span>
               </div>
               <div id="selected-event-list" class="event-list"></div>
             </aside>
           </div>
+
+          <details id="filter-panel" class="filter-panel filters-below-calendar" open>
+            <summary data-i18n="filters">Filters</summary>
+            <div class="filter-grid">
+              <label><span data-i18n="region">Region</span><select id="filter-region"></select></label>
+              <label><span data-i18n="venue">Karting venue</span><select id="filter-venue"></select></label>
+              <label><span data-i18n="type">Race type</span><select id="filter-type"></select></label>
+              <label><span data-i18n="age">Age group</span><select id="filter-age"></select></label>
+              <button id="reset-filters" class="button button-dark" type="button" data-i18n="reset">Reset filters</button>
+            </div>
+          </details>
+          <p id="filter-message" class="filter-message" aria-live="polite"></p>
         </div>
       </div>
     </section>
 
-    <!-- Секция «Five nearest races»: показывает ближайшие мероприятия без открытия календаря -->
-    <section class="section"><div class="container"><p class="eyebrow" data-i18n="coming">Coming next</p><h2 data-i18n="nearest">Five nearest races</h2><div id="upcoming-list" class="upcoming-list" aria-live="polite"></div></div></section>
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow" data-i18n="coming">Coming next</p>
+        <h2 data-i18n="nearest">Five nearest races</h2>
+        <div id="upcoming-list" class="upcoming-list" aria-live="polite"></div>
+      </div>
+    </section>
 
-    <!-- Секция карты: здесь будет карта Португалии с карточками трасс и площадок -->
-    <section id="venues" class="section section-alt"><div class="container"><p class="eyebrow" data-i18n="venues">Karting venues</p><h2 data-i18n="mapTitle">Karting map of Portugal</h2><div class="map-layout"><div id="map"></div><aside id="venue-panel" class="venue-panel"><div class="track-placeholder"><span></span></div><h3 data-i18n="selectVenue">Select a karting venue</h3></aside></div></div></section>
+    <section id="venues" class="section section-alt">
+      <div class="container">
+        <p class="eyebrow" data-i18n="venues">Karting venues</p>
+        <h2 data-i18n="mapTitle">Karting map of Portugal</h2>
+        <div class="map-layout">
+          <div id="map"></div>
+          <aside id="venue-panel" class="venue-panel">
+            <div class="track-placeholder"><span></span></div>
+            <h3 data-i18n="selectVenue">Select a karting venue</h3>
+          </aside>
+        </div>
+      </div>
+    </section>
 
-    <!-- Секция сообществ: список Telegram-групп и предупреждение о внешних источниках -->
-    <section id="communities" class="section"><div class="container"><p class="eyebrow">Telegram</p><h2 data-i18n="communityTitle">Karting communities</h2><div id="community-list" class="community-grid"></div><p class="disclaimer" data-i18n="disclaimer"></p></div></section>
+    <section id="communities" class="section">
+      <div class="container">
+        <p class="eyebrow">Telegram</p>
+        <h2 data-i18n="communityTitle">Karting communities</h2>
+        <div id="community-list" class="community-grid"></div>
+        <p class="disclaimer" data-i18n="disclaimer"></p>
+      </div>
+    </section>
 
-    <!-- Секция контактов: человек, ответственный за проект, и форма/ссылка для предложений -->
-    <section id="contact" class="section section-alt"><div class="container"><p class="eyebrow" data-i18n="contact">Contact</p><h2 data-i18n="contactTitle">Get in touch</h2><div class="contact-card"><div><strong>Viktor Iakovets</strong><a href="mailto:portugal.kartracing@gmail.com">portugal.kartracing@gmail.com</a></div><div class="suggest-event"><button class="button button-dark" disabled data-i18n="suggest">Suggest an event</button><small data-i18n="formLater">The form will be available later.</small></div></div></div></section>
+    <section id="contact" class="section section-alt">
+      <div class="container">
+        <p class="eyebrow" data-i18n="contact">Contact</p>
+        <h2 data-i18n="contactTitle">Get in touch</h2>
+        <div class="contact-card">
+          <div>
+            <strong>Viktor Iakovets</strong>
+            <a href="mailto:portugal.kartracing@gmail.com">portugal.kartracing@gmail.com</a>
+          </div>
+          <div class="suggest-event">
+            <button class="button button-dark" disabled data-i18n="suggest">Suggest an event</button>
+            <small data-i18n="formLater">The form will be available later.</small>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <!-- Подвал страницы с названием проекта -->
   <footer><div class="container">Race Day · Keep on rolling</div></footer>
 
-  <!-- Подключение сторонних библиотек и JS-скриптов проекта.
-       Порядок важен: сначала библиотеки (PapaParse, Leaflet), потом локальные модули -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
   <script src="js/translations.js" defer></script>
@@ -129,6 +152,7 @@
   <script src="js/filters.js" defer></script>
   <script src="js/map.js" defer></script>
   <script src="js/communities.js" defer></script>
+  <script src="js/today.js" defer></script>
   <script src="js/app.js" defer></script>
 </body>
 </html>
