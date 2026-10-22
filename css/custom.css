@@ -1,12 +1,87 @@
-/* Yellow accents are isolated here so they are easy to adjust or remove. */
-.site-header::after { content:""; position:absolute; right:0; bottom:-1px; width:clamp(100px,18vw,240px); height:4px; background:var(--yellow); transform:skewX(-28deg); transform-origin:right; }
-.main-nav a { position:relative; }
-.main-nav a::after { content:""; position:absolute; right:0; bottom:-7px; left:0; height:3px; background:var(--yellow); transform:scaleX(0); transform-origin:left; transition:transform 160ms ease; }
-.main-nav a:hover::after, .main-nav a:focus-visible::after { transform:scaleX(1); }
-.hero { position:relative; overflow:hidden; }
-.hero::after { content:""; position:absolute; right:-130px; bottom:-250px; width:340px; height:340px; border:42px solid var(--yellow); border-radius:50%; }
-.hero .container { position:relative; z-index:1; }
-.filter-panel summary::marker { color:var(--yellow); }
-.calendar-month { border-top:4px solid var(--yellow); }
-.selected-event { border-top:4px solid var(--yellow); }
-.community-card { border-bottom:4px solid var(--yellow); }
+/* Existing yellow accents remain unchanged. */
+.site-header::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  width: clamp(100px, 18vw, 240px);
+  height: 4px;
+  background: var(--yellow);
+  transform: skewX(-28deg);
+  transform-origin: right;
+}
+.main-nav a { position: relative; }
+.main-nav a::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -5px;
+  left: 0;
+  height: 3px;
+  background: var(--yellow);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 160ms ease;
+}
+.main-nav a:hover::after,
+.main-nav a:focus-visible::after { transform: scaleX(1); }
+.hero { position: relative; overflow: hidden; }
+.hero::after {
+  content: "";
+  position: absolute;
+  right: -130px;
+  bottom: -250px;
+  width: 340px;
+  height: 340px;
+  border: 42px solid var(--yellow);
+  border-radius: 50%;
+}
+.hero .container { position: relative; z-index: 1; }
+.filter-panel summary::marker { color: var(--yellow); }
+.calendar-month,
+.selected-event { border-top: 4px solid var(--yellow); }
+.community-card { border-bottom: 4px solid var(--yellow); }
+
+/* Header is about 40% shorter than the previous 72 px version. */
+.header-inner { min-height: 44px; }
+.brand { width: 104px; height: 42px; }
+.language-switcher button { min-width: 34px; min-height: 34px; padding: 4px 7px; }
+.main-nav { gap: 14px; }
+.main-nav a { font-size: .9rem; }
+
+/* Hero no longer contains the Calendar button and is slightly tighter. */
+.hero { padding-top: 50px; padding-bottom: 58px; }
+
+/* Today's event block uses the same cards as the calendar detail. */
+.today-section { padding-bottom: 42px; }
+.today-event-list { width: min(100%, 760px); }
+.today-empty {
+  margin: 0;
+  padding: 16px;
+  border-radius: var(--radius);
+  color: var(--muted);
+  background: #fff;
+  box-shadow: var(--shadow);
+  font-weight: 700;
+}
+
+/* Filters are now visually separated below the calendar workspace. */
+.filters-below-calendar { margin-top: 18px; }
+
+.event-actions,
+.venue-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+@media (max-width: 760px) {
+  .header-inner { min-height: 44px; }
+  .brand { width: 86px; height: 40px; }
+  .today-event-list { width: 100%; }
+  .event-actions,
+  .venue-actions { flex-direction: column; }
+  .event-actions .button,
+  .venue-actions .button { width: 100%; }
+}
